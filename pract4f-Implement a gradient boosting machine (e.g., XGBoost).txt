@@ -1,0 +1,110 @@
+
+# Practical No. 4(f): XGBoost Classifier
+
+# 1. Aim
+To implement a Gradient Boosting Classifier using XGBoost, 
+tune its hyperparameters, evaluate model performance, and visualize feature importance
+.
+# 2. Algorithm / Procedure
+1. Import the required libraries.
+2. Load the Iris dataset.
+3. Split the dataset into training and testing sets.
+4. Create an XGBoost classifier.
+5. Train the model using selected hyperparameters.
+6. Predict the test data.
+7. Calculate accuracy, confusion matrix, and classification report.
+8. Display feature importance using a bar graph.
+
+# pip install xgboost
+
+# XGBoost Classifier on Iris Dataset
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import xgboost as xgb
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    classification_report
+)
+
+# 1. Load Dataset
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+# 2. Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# 3. Initialize XGBoost Model
+xgb_model = xgb.XGBClassifier(
+    n_estimators=100,
+    max_depth=3,
+    learning_rate=0.1,
+    eval_metric='mlogloss',
+    random_state=42
+)
+
+# 4. Train Model
+xgb_model.fit(X_train, y_train)
+
+# 5. Make Predictions
+y_pred = xgb_model.predict(X_test)
+
+# 6. Evaluate Model
+accuracy = accuracy_score(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+
+print("\nConfusion Matrix:\n")
+print(confusion_matrix(y_test, y_pred))
+
+print("\nClassification Report:\n")
+print(
+    classification_report(
+        y_test,
+        y_pred,
+        target_names=iris.target_names
+    )
+)
+
+# 7. Feature Importance
+importance = xgb_model.feature_importances_
+
+print("\nFeature Importance:")
+for name, value in zip(iris.feature_names, importance):
+    print(f"{name}: {value:.3f}")
+
+# 8. Visualize Feature Importance
+plt.figure(figsize=(8, 5))
+
+plt.barh(iris.feature_names, importance)
+
+plt.xlabel("Importance")
+plt.ylabel("Features")
+plt.title("XGBoost Feature Importance")
+
+plt.tight_layout()
+plt.show()
+
+# Expected Output
+The program displays:
+- Model accuracy
+- Confusion matrix
+- Precision, recall, and F1-score
+- Feature importance values
+- Feature importance bar graph
+Exact output is generated when you run the program. 
+Feature importance values indicate the relative 
+contribution of features according to the fitted model.
+
+# 6. Result
+Thus, the XGBoost classifier was successfully implemented 
+on the Iris dataset, evaluated using 
+classification metrics, and feature importance was visualized.

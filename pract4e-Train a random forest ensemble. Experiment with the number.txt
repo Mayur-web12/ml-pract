@@ -1,0 +1,221 @@
+# Practical No. 4(e): Random Forest Classifier
+
+# 1. Aim
+To implement a Random Forest Classifier, experiment with the 
+number of trees and feature sampling, and compare its 
+performance with a single Decision Tree using accuracy.
+
+# 2. Algorithm / Procedure
+1. Import the required libraries.
+2. Create a sample dataset.
+3. Separate input features and target labels.
+4. Split the dataset into training and testing sets.
+5. Train a single Decision Tree and calculate accuracy.
+6. Train Random Forest models using different numbers of trees and feature sampling values.
+7. Compare the accuracy of all models.
+8. Display the comparison using a bar graph.
+3. Corrected Python Program
+
+# RANDOM FOREST ENSEMBLE
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# 1. Create Sample Dataset
+data = {
+    'sepal_length': [5.1, 4.9, 5.8, 6.0, 6.3, 5.0, 5.5, 6.7, 6.5, 5.7],
+    'sepal_width': [3.5, 3.0, 2.7, 3.4, 3.3, 3.6, 2.8, 3.1, 2.8, 2.5],
+    'petal_length': [1.4, 1.4, 4.1, 4.5, 5.0, 1.5, 4.5, 5.6, 5.2, 4.0],
+    'petal_width': [0.2, 0.2, 1.3, 1.5, 2.0, 0.2, 1.5, 2.4, 2.0, 1.2],
+    'species': [
+        'setosa', 'setosa', 'versicolor', 'versicolor',
+        'virginica', 'setosa', 'versicolor', 'virginica',
+        'virginica', 'versicolor'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# 2. Separate Features and Target
+X = df.drop('species', axis=1)
+y = df['species']
+
+# 3. Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# 4. Single Decision Tree
+dt = DecisionTreeClassifier(max_depth=3, random_state=42)
+
+dt.fit(X_train, y_train)
+
+y_pred_dt = dt.predict(X_test)
+
+accuracy_dt = accuracy_score(y_test, y_pred_dt)
+
+print(f"Decision Tree Accuracy: {accuracy_dt * 100:.2f}%")
+
+# 5. Random Forest Experiment
+n_trees_list = [5, 10, 50]
+max_features_list = [1, 2, 3, None]
+
+results = {}
+
+for n_trees in n_trees_list:
+    for max_feat in max_features_list:
+
+        rf = RandomForestClassifier(
+            n_estimators=n_trees,
+            max_features=max_feat,
+            random_state=42
+        )
+
+        rf.fit(X_train, y_train)
+
+        y_pred_rf = rf.predict(X_test)
+
+        accuracy_rf = accuracy_score(y_test, y_pred_rf)
+
+        print(
+            f"Random Forest (trees={n_trees}, "
+            f"max_features={max_feat}) Accuracy: "
+            f"{accuracy_rf * 100:.2f}%"
+        )
+
+        results[f"RF {n_trees}"] = accuracy_rf
+
+# 6. Comparison
+plt.figure(figsize=(8, 5))
+
+plt.bar(
+    ['Decision Tree', 'RF 5', 'RF 10', 'RF 50'],
+    [
+        accuracy_dt,
+        results['RF 5'],
+        results['RF 10'],
+        results['RF 50']
+    ]
+)
+
+plt.ylabel("Accuracy")
+plt.xlabel("Models")
+plt.title("Decision Tree vs Random Forest")
+plt.ylim(0, 1.1)
+plt.grid(axis='y')
+plt.show()
+
+# RANDOM FOREST ENSEMBLE
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# 1. Create Sample Dataset
+data = {
+    'sepal_length': [5.1, 4.9, 5.8, 6.0, 6.3, 5.0, 5.5, 6.7, 6.5, 5.7],
+    'sepal_width': [3.5, 3.0, 2.7, 3.4, 3.3, 3.6, 2.8, 3.1, 2.8, 2.5],
+    'petal_length': [1.4, 1.4, 4.1, 4.5, 5.0, 1.5, 4.5, 5.6, 5.2, 4.0],
+    'petal_width': [0.2, 0.2, 1.3, 1.5, 2.0, 0.2, 1.5, 2.4, 2.0, 1.2],
+    'species': [
+        'setosa', 'setosa', 'versicolor', 'versicolor',
+        'virginica', 'setosa', 'versicolor', 'virginica',
+        'virginica', 'versicolor'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# 2. Separate Features and Target
+X = df.drop('species', axis=1)
+y = df['species']
+
+# 3. Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# 4. Single Decision Tree
+dt = DecisionTreeClassifier(max_depth=3, random_state=42)
+
+dt.fit(X_train, y_train)
+
+y_pred_dt = dt.predict(X_test)
+
+accuracy_dt = accuracy_score(y_test, y_pred_dt)
+
+print(f"Decision Tree Accuracy: {accuracy_dt * 100:.2f}%")
+
+# 5. Random Forest Experiment
+n_trees_list = [5, 10, 50]
+max_features_list = [1, 2, 3, None]
+
+results = {}
+
+for n_trees in n_trees_list:
+    for max_feat in max_features_list:
+
+        rf = RandomForestClassifier(
+            n_estimators=n_trees,
+            max_features=max_feat,
+            random_state=42
+        )
+
+        rf.fit(X_train, y_train)
+
+        y_pred_rf = rf.predict(X_test)
+
+        accuracy_rf = accuracy_score(y_test, y_pred_rf)
+
+        print(
+            f"Random Forest (trees={n_trees}, "
+            f"max_features={max_feat}) Accuracy: "
+            f"{accuracy_rf * 100:.2f}%"
+        )
+
+        results[f"RF {n_trees}"] = accuracy_rf
+
+# 6. Comparison
+plt.figure(figsize=(8, 5))
+
+plt.bar(
+    ['Decision Tree', 'RF 5', 'RF 10', 'RF 50'],
+    [
+        accuracy_dt,
+        results['RF 5'],
+        results['RF 10'],
+        results['RF 50']
+    ]
+)
+
+plt.ylabel("Accuracy")
+plt.xlabel("Models")
+plt.title("Decision Tree vs Random Forest")
+plt.ylim(0, 1.1)
+plt.grid(axis='y')
+plt.show()
+
+# Expected Output
+The program displays accuracy for:
+- Single Decision Tree
+- Random Forest with 5 trees
+- Random Forest with 10 trees
+- Random Forest with 50 trees
+- Different max_features settings
+It also displays a bar graph comparing the models.
+Exact accuracy values are calculated during execution. 
+The small sample dataset may produce varying accuracy across model configurations.
+
+# 5. Result
+Thus, the Random Forest Ensemble was successfully implemented
+using different numbers of trees and feature sampling values, 
+and its performance was compared with a single Decision Tree.

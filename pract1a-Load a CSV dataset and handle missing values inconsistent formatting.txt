@@ -1,0 +1,54 @@
+Practical No. 1(a): Data Pre-processing and Exploration
+
+# 1. Aim
+To load a CSV dataset using Pandas and perform data cleaning by handling missing values, inconsistent formatting, and outliers.
+
+# 2. Algorithm / Procedure Write these 6 steps:
+1. Import the Pandas library.
+2. Create a student dataset and save it as a CSV file.
+3. Load the CSV file using read_csv().
+4. Handle missing values using the mean of the columns.
+5. Remove extra spaces from names and remove outliers from marks.
+6. Display and save the cleaned dataset.
+
+# 3. Program
+
+import pandas as pd
+
+# Create a CSV file 
+data = {
+"Name": ["Amit", "Riya ", " Rahul", "Priya", "Ankit"], "Age": [20, None, 21, 22, 20],
+"Marks": [85, 90, None, 95, 250]
+}
+df = pd.DataFrame(data)
+df.to_csv("students.csv", index=False)
+
+# Load CSV file
+df = pd.read_csv("students.csv")
+print("Original Data") 
+print(df)
+
+# Handle missing values
+df["Age"] = df["Age"].fillna(df["Age"].mean())
+df["Marks"] = df["Marks"].fillna(df["Marks"].mean())
+
+# Handle inconsistent formatting
+df["Name"] = df["Name"].str.strip()
+
+# Remove outlier (Marks > 100) 
+df = df[df["Marks"] <= 100]
+print("\nCleaned Data") 
+print(df)
+
+# Save cleaned data
+df.to_csv("cleaned_students.csv", index=False) 
+print("\nData cleaned and saved successfully!")
+
+# Expected Output
+Original Data
+Cleaned Data
+
+# Result
+Thus, the CSV dataset was successfully loaded and 
+cleaned by handling missing values, removing inconsistent 
+formatting, and eliminating outliers.

@@ -1,0 +1,84 @@
+Practical No. 6(b) – Gaussian Mixture Model
+
+# Aim
+To implement Gaussian Mixture Models for density estimation and unsupervised clustering using a synthetic dataset.
+
+# Algorithm / Procedure
+1. Import the required libraries.
+2. Generate a synthetic dataset containing three clusters.
+3. Initialize the Gaussian Mixture Model with three components.
+4. Train the model using the dataset.
+5. Predict the cluster labels for the data points.
+6. Visualize the clusters and their centers.
+7. Calculate the probability of each sample belonging to each cluster.
+
+#Required Installation
+If the libraries are not installed, run:
+python -m pip install numpy matplotlib scikit-learn
+
+
+# Import required libraries
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.mixture import GaussianMixture
+from sklearn.datasets import make_blobs
+
+# Step 1: Generate synthetic data
+X, y_true = make_blobs(
+    n_samples=500,
+    centers=3,
+    cluster_std=1.0,
+    random_state=42
+)
+
+# Step 2: Fit Gaussian Mixture Model
+gmm = GaussianMixture(
+    n_components=3,
+    covariance_type='full',
+    random_state=42
+)
+
+gmm.fit(X)
+
+# Predict cluster labels
+labels = gmm.predict(X)
+
+# Step 3: Plot the clusters
+plt.figure(figsize=(8, 6))
+
+plt.scatter(
+    X[:, 0],
+    X[:, 1],
+    c=labels,
+    cmap='viridis',
+    s=40
+)
+
+# Plot cluster centers
+plt.scatter(
+    gmm.means_[:, 0],
+    gmm.means_[:, 1],
+    c='red',
+    marker='x',
+    s=100,
+    label='Centroids'
+)
+
+plt.title("Gaussian Mixture Model Clustering")
+plt.xlabel("Feature 1")
+plt.ylabel("Feature 2")
+plt.legend()
+plt.show()
+
+# Step 4: Display probabilities
+probabilities = gmm.predict_proba(X)
+
+print("First 5 samples probabilities:\n")
+print(probabilities[:5])
+
+
+# Result
+The Gaussian Mixture Model was successfully implemented for 
+density estimation and unsupervised clustering. The data was 
+divided into three clusters, and membership probabilities were calculated.

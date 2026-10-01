@@ -1,0 +1,104 @@
+# Practical No. 4(b): K-Nearest Neighbors Algorithm
+
+# 1. Aim
+To implement the K-Nearest Neighbors (KNN) algorithm using a CSV 
+dataset and classify test samples by displaying correct and wrong predictions.
+
+# 2. Algorithm / Procedure
+1. Import the required libraries.
+2. Create a sample dataset and save it as a CSV file.
+3. Read the CSV file using Pandas.
+4. Separate features and target labels.
+5. Split the dataset into training and testing data.
+6. Train the KNN classifier with K = 3.
+7. Predict the test samples.
+8. Display correct and wrong predictions and calculate accuracy.
+3. Corrected Python Program
+
+# K-NEAREST NEIGHBORS (KNN)
+
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+# 1. Create Sample Dataset
+data = {
+    'sepal_length': [5.1, 4.9, 5.8, 6.0, 6.3, 5.0, 5.5, 6.7, 6.5, 5.7],
+    'sepal_width': [3.5, 3.0, 2.7, 3.4, 3.3, 3.6, 2.8, 3.1, 2.8, 2.5],
+    'petal_length': [1.4, 1.4, 4.1, 4.5, 5.0, 1.5, 4.5, 5.6, 5.2, 4.0],
+    'petal_width': [0.2, 0.2, 1.3, 1.5, 2.0, 0.2, 1.5, 2.4, 2.0, 1.2],
+    'species': [
+        'setosa', 'setosa', 'versicolor', 'versicolor',
+        'virginica', 'setosa', 'versicolor', 'virginica',
+        'virginica', 'versicolor'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Save dataset as CSV
+df.to_csv("iris_sample.csv", index=False)
+
+# 2. Read CSV File
+df = pd.read_csv("iris_sample.csv")
+
+# 3. Separate Features and Target
+X = df.drop('species', axis=1)
+y = df['species']
+
+# 4. Split Training and Testing Data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# 5. Build KNN Model
+k = 3
+
+knn = KNeighborsClassifier(n_neighbors=k)
+knn.fit(X_train, y_train)
+
+# 6. Make Predictions
+y_pred = knn.predict(X_test)
+
+# 7. Display Results
+print("Test Samples:")
+print(X_test)
+
+print("\nActual Labels:")
+print(y_test.values)
+
+print("\nPredicted Labels:")
+print(y_pred)
+
+# 8. Correct and Wrong Predictions
+correct = y_test[y_test.values == y_pred]
+wrong = y_test[y_test.values != y_pred]
+
+print("\nCorrect Predictions:")
+print(correct)
+
+print("\nWrong Predictions:")
+print(wrong)
+
+# 9. Calculate Accuracy
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"\nModel Accuracy: {accuracy * 100:.2f}%")
+
+
+# Expected Output
+The program displays:
+- Test samples
+- Actual species labels
+- Predicted species labels
+- Correct predictions
+- Wrong predictions
+- Model accuracy
+The exact accuracy is calculated when you execute the program.
+With this small dataset,
+the accuracy may vary depending on the train-test split.
+
+# 5. Result
+Thus, the K-Nearest Neighbors algorithm was successfully implemented using a CSV dataset to classify test samples, identify correct and wrong predictions, and calculate model accuracy.

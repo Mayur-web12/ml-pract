@@ -1,0 +1,77 @@
+# Practical No. 7(a) – Cross-Validation Techniques
+
+# Aim
+To implement K-Fold and Stratified K-Fold cross-validation techniques for robust evaluation of a Machine Learning model.
+
+#Algorithm / Procedure
+1. Import the required libraries.
+2. Load the Iris dataset.
+3. Separate the input features and target labels.
+4. Create a Logistic Regression model.
+5. Apply K-Fold cross-validation with five splits.
+6. Apply Stratified K-Fold cross-validation with five splits.
+7. Calculate the accuracy scores and mean accuracy.
+8. Display and compare the results.
+
+import numpy as np
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import (
+    KFold,
+    StratifiedKFold,
+    cross_val_score
+)
+from sklearn.linear_model import LogisticRegression
+
+# Load dataset
+data = load_iris()
+X, y = data.data, data.target
+
+# Create model
+model = LogisticRegression(max_iter=200)
+
+# 1. K-Fold Cross Validation
+print("K-Fold Cross Validation:")
+
+kf = KFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
+)
+
+scores_kf = cross_val_score(model, X, y, cv=kf)
+
+print("Scores:", scores_kf)
+print("Mean Accuracy:", np.mean(scores_kf))
+print()
+
+# 2. Stratified K-Fold Cross Validation
+print("Stratified K-Fold Cross Validation:")
+
+skf = StratifiedKFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
+)
+
+scores_skf = cross_val_score(model, X, y, cv=skf)
+
+print("Scores:", scores_skf)
+print("Mean Accuracy:", np.mean(scores_skf))
+print()
+
+# 3. Default 5-Fold Cross Validation
+print("Default 5-Fold (Stratified for classification):")
+
+scores_default = cross_val_score(
+    model, X, y, cv=5
+)
+
+print("Scores:", scores_default)
+print("Mean Accuracy:", np.mean(scores_default))
+
+
+# Result
+K-Fold and Stratified K-Fold cross-validation techniques 
+were successfully implemented using Logistic Regression on 
+the Iris dataset. The accuracy scores and mean accuracy were calculated to evaluate model performance.

@@ -1,0 +1,96 @@
+# Practical No. 4(a): Logistic Regression
+# 1. Aim
+To perform binary classification using Logistic Regression
+and evaluate the model using Accuracy, Precision, Recall, and ROC-AUC score.
+
+# 2. Algorithm / Procedure
+1. Import the required libraries.
+2. Generate a binary classification dataset.
+3. Split the dataset into training and testing sets.
+4. Train the Logistic Regression model.
+5. Predict the class labels and probabilities.
+6. Calculate Accuracy, Precision, Recall, and ROC-AUC.
+7. Plot the ROC curve.
+
+# 3. Program
+
+# LOGISTIC REGRESSION
+# Binary Classification
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    roc_curve,
+    roc_auc_score
+)
+
+# 1. Create Dataset
+X, y = make_classification(
+    n_samples=1000,
+    n_features=2,
+    n_classes=2,
+    n_informative=2,
+    n_redundant=0,
+    random_state=42
+)
+
+# 2. Train-Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# 3. Train Logistic Regression Model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# 4. Make Predictions
+y_pred = model.predict(X_test)
+y_proba = model.predict_proba(X_test)[:, 1]
+
+# 5. Evaluate Performance
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+roc_auc = roc_auc_score(y_test, y_proba)
+
+print(f"Accuracy: {accuracy:.2f}")
+print(f"Precision: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
+print(f"ROC AUC Score: {roc_auc:.2f}")
+
+# 6. Plot ROC Curve
+fpr, tpr, thresholds = roc_curve(y_test, y_proba)
+
+plt.figure(figsize=(6, 4))
+
+plt.plot(
+    fpr, tpr,
+    label=f"ROC Curve (AUC = {roc_auc:.2f})"
+)
+
+plt.plot(
+    [0, 1], [0, 1],
+    "k--",
+    label="Random Classifier"
+)
+
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate (Recall)")
+plt.title("ROC Curve")
+
+plt.legend(loc="lower right")
+plt.grid()
+plt.tight_layout()
+plt.show()
+
+# Result
+Thus, Logistic Regression was successfully implemented for binary classification, 
+and its performance was evaluated using Accuracy, Precision, Recall, and ROC-AUC score.

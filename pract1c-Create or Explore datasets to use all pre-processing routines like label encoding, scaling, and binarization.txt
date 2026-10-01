@@ -1,0 +1,66 @@
+# Practical No. 1(c): Label Encoding, Feature Scaling and Binarization
+# 1. Aim
+To create a dataset and perform data pre-processing techniques 
+such as Label Encoding, Feature Scaling, and Binarization using Python.
+
+# 2. Algorithm / Procedure
+1. Import Pandas and preprocessing libraries.
+2. Create a dataset containing Gender, Age, Salary, and Purchased.
+3. Convert categorical Gender values into numerical values using Label Encoding.
+4. Apply StandardScaler to scale Age and Salary.
+5. Apply Binarizer with a threshold of 0.5 to the Purchased column.
+6. Display the processed data.
+
+# Program
+# Import Libraries
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import Binarizer
+
+# Create Dataset
+data = {
+    'Gender': ['Male', 'Female', 'Female', 'Male', 'Female'],
+    'Age': [25, 30, 45, 35, 22],
+    'Salary': [50000, 60000, 80000, 65000, 48000],
+    'Purchased': [0, 1, 1, 0, 0]
+}
+
+df = pd.DataFrame(data)
+
+print("Original Dataset:")
+print(df)
+
+# Label Encoding
+le = LabelEncoder()
+df['Gender_Encoded'] = le.fit_transform(df['Gender'])
+
+print("\nAfter Label Encoding:")
+print(df[['Gender', 'Gender_Encoded']])
+
+# Feature Scaling
+scaler = StandardScaler()
+
+df[['Age_Scaled', 'Salary_Scaled']] = scaler.fit_transform(
+    df[['Age', 'Salary']]
+)
+
+print("\nAfter Feature Scaling:")
+print(df[['Age_Scaled', 'Salary_Scaled']])
+
+# Binarization
+binarizer = Binarizer(threshold=0.5)
+
+df['Purchased_Binary'] = binarizer.fit_transform(
+    df[['Purchased']]
+)
+
+print("\nAfter Binarization:")
+print(df[['Purchased', 'Purchased_Binary']])
+
+# Expected Output
+Original Dataset
+
+# Result
+Thus, the dataset was successfully pre-processed 
+using Label Encoding, Standard Scaling, and Binarization.
